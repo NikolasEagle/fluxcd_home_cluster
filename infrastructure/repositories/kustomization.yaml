@@ -4,3 +4,4 @@ resources:
   - obeone.yaml
   - vless.yaml
   - frigate.yaml
+  - grafana.yaml
