@@ -5,3 +5,4 @@ resources:
   - vless.yaml
   - frigate.yaml
   - grafana.yaml
+  - prometheus-community.yaml
