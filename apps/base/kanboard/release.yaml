@@ -1,0 +1,20 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kanboard
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kanboard
+      version: ">=1.2.3"
+      sourceRef:
+        kind: HelmRepository
+        name: kanboard-helm-repo
+        namespace: flux-system
+      interval: 1m
+  valuesFrom:
+    - kind: ConfigMap
+      name: kanboard-config
+      valuesKey: values.yaml
