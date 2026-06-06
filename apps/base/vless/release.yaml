@@ -14,7 +14,42 @@ spec:
         name: vless-helm-repo
         namespace: flux-system
       interval: 1m
-  valuesFrom:
-    - kind: ConfigMap
-      name: vless-config
-      valuesKey: values.yaml
+  values:
+    replicaCount: 1
+
+    web:
+      enabled: true
+      type: ClusterIP
+      portName: vless-web
+      protocol: TCP
+      port: 40253
+      targetPort: 40253
+      ingress:
+        enabled: true
+        className: "traefik"
+        annotations: {}
+        tls: []
+        hosts:
+        - host: vless.home
+          paths:
+          - path: /
+            pathType: Prefix
+
+    vpn:
+      enabled: true
+      type: LoadBalancer
+      portName: vless-vpn
+      protocol: TCP
+      port: 31052
+      targetPort: 31052
+
+    secretRef: "vless-secret"
+
+    volumeMounts:
+      - name: vless-data-volume
+        mountPath: /etc/x-ui
+
+    volumes:
+      - name: vless-data-volume
+        persistentVolumeClaim:
+          claimName: vless-data-claim

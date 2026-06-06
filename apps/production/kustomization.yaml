@@ -4,5 +4,3 @@ resources:
   - ../base/frigate
   - ../base/vless
   - ../base/kanboard
-patchesStrategicMerge:
-  - vless-patch.yaml
