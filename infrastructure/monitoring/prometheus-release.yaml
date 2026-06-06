@@ -14,7 +14,68 @@ spec:
         name: prometheus-community-helm-repo
         namespace: flux-system
       interval: 1m
-  valuesFrom:
-    - kind: ConfigMap
-      name: prometheus-config
-      valuesKey: values.yaml
+  values:
+    server:
+      persistentVolume:
+        enabled: true
+        accessModes:
+          - ReadWriteMany
+        existingClaim: "prometheus-data-claim"
+        size: 20Gi
+        retention: "30d"
+        retentionSize: "20GB"
+      image:
+        repository: prom/prometheus
+        tag: v2.54.1
+        pullPolicy: IfNotPresent
+
+    scrapeConfigs:
+      prometheus:
+        enabled: true
+      kubernetes-api-servers:
+        enabled: true
+      kubernetes-nodes:
+        enabled: true
+      kubernetes-nodes-cadvisor:
+        enabled: true
+      kubernetes-service-endpoints:
+        enabled: true
+      kubernetes-service-endpoints-slow:
+        enabled: true
+      prometheus-pushgateway:
+        enabled: true
+      kubernetes-services:
+        enabled: true
+      kubernetes-pods:
+        enabled: true
+      kubernetes-pods-slow:
+        enabled: true
+
+    extraScrapeConfigs: |
+      - job_name: 'pc'
+        scrape_interval: 30s
+        static_configs:
+          - targets:
+              - '152.152.152.1:9182'
+      - job_name: 'workstat'
+        scrape_interval: 30s
+        static_configs:
+          - targets:
+              - '152.152.152.2:9100'
+      - job_name: 'nas'
+        scrape_interval: 30s
+        static_configs:
+          - targets:
+              - '152.152.152.3:9100'
+
+    alertmanager:
+      enabled: false
+
+    kube-state-metrics:
+      enabled: true
+
+    prometheus-node-exporter:
+      enabled: true
+
+    prometheus-pushgateway:
+      enabled: true
