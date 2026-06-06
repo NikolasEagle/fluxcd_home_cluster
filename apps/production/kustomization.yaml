@@ -5,6 +5,5 @@ resources:
   - ../base/vless
   - ../base/kanboard
 patchesStrategicMerge:
-  - frigate-patch.yaml
   - vless-patch.yaml
   - kanboard-patch.yaml
