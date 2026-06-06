@@ -14,7 +14,84 @@ spec:
         name: grafana-helm-repo
         namespace: flux-system
       interval: 1m
-  valuesFrom:
-    - kind: ConfigMap
-      name: grafana-config
-      valuesKey: values.yaml
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations: {}
+      hosts:
+        - grafana.home
+      tls: []
+
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 3000
+      targetPort: 3000
+
+    persistence:
+      type: pvc
+      enabled: true
+      accessModes:
+        - ReadWriteMany
+      size: 100Mi
+      existingClaim: "grafana-data-claim"
+
+    initChownData:
+      enabled: false
+
+    adminUser: admin
+
+    admin:
+      existingSecret: "monitoring-secret"
+      userKey: admin-user
+      passwordKey: admin-password
+
+    plugins: []
+
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus-server.default.svc.cluster.local
+            access: proxy
+            isDefault: true
+
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+
+    dashboards:
+      default:
+        k8s-system-api-server:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+          datasource: Prometheus
+        k8s-system-coredns:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+          datasource: Prometheus
+        k8s-views-global:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+          datasource: Prometheus
+        k8s-views-namespaces:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+          datasource: Prometheus
+        k8s-views-nodes:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+          token: ""
+        k8s-views-pods:
+          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+          datasource: Prometheus
+        node-exporter-full:
+          url: https://raw.githubusercontent.com/rfmoz/grafana-dashboards/master/prometheus/node-exporter-full.json
+          datasource: Prometheus
