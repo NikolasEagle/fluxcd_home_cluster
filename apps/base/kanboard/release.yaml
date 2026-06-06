@@ -14,7 +14,23 @@ spec:
         name: kanboard-helm-repo
         namespace: flux-system
       interval: 1m
-  valuesFrom:
-    - kind: ConfigMap
-      name: kanboard-config
-      valuesKey: values.yaml
+  values:
+    application:
+      persistence:
+        enabled: true
+        persistentVolumeClaim:
+          name: kanboard-data-claim
+          create: false
+      env: []
+        
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 8080
+
+    ingress:
+      enabled: true
+      annotations: {}
+      ingressClassName: "traefik"
+      host: kanboard.home
+      tls: ~

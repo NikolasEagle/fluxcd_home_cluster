@@ -6,4 +6,3 @@ resources:
   - ../base/kanboard
 patchesStrategicMerge:
   - vless-patch.yaml
-  - kanboard-patch.yaml
