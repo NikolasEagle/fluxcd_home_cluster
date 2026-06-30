@@ -30,10 +30,10 @@ spec:
         annotations: {}
         tls: []
         hosts:
-        - host: vless.home
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: vless.home
+            paths:
+              - path: /
+                pathType: Prefix
 
     vpn:
       enabled: true
@@ -52,4 +52,4 @@ spec:
     volumes:
       - name: vless-data-volume
         persistentVolumeClaim:
-          claimName: vless-data-claim
+          claimName: vless-pvc
