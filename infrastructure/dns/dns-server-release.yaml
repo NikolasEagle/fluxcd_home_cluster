@@ -64,5 +64,5 @@ spec:
       config:
         enabled: true
         type: pvc
-        existingClaim: "dns-config-claim"
+        existingClaim: "dns-pvc"
         mountPath: /etc/dns
