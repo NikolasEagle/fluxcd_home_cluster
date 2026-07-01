@@ -7,3 +7,4 @@ resources:
   - grafana.yaml
   - prometheus-community.yaml
   - kanboard.yaml
+  - csi-driver-nfs.yaml
