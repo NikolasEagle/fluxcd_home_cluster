@@ -50,13 +50,13 @@ spec:
               days: 7
               mode: all
         
-      
+
       detect:
         enabled: false
       birdseye:
         enabled: false
       rtmp: 
-        enabled: false  
+        enabled: false
 
     ingress:
       enabled: true
@@ -65,7 +65,7 @@ spec:
       hosts:
         - host: frigate.home
           paths:
-            - path: '/'
+            - path: "/"
               portName: http-auth
 
     service:
@@ -76,7 +76,7 @@ spec:
       config:
         enabled: true
         storageClass: "localstorage"
-        existingClaim: frigate-config-claim
+        existingClaim: frigate-config-pvc
         accessMode: ReadWriteMany
         size: 100Mi
         skipuninstall: true
@@ -85,7 +85,7 @@ spec:
       media:
         enabled: true
         storageClass: "localstorage"
-        existingClaim: frigate-media-claim
+        existingClaim: frigate-media-pvc
         accessMode: ReadWriteMany
         size: 20Gi
         skipuninstall: true
