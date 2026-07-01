@@ -20,7 +20,7 @@ spec:
         enabled: true
         accessModes:
           - ReadWriteMany
-        existingClaim: "prometheus-data-claim"
+        existingClaim: "prometheus-pvc"
         size: 20Gi
         retention: "30d"
         retentionSize: "20GB"
