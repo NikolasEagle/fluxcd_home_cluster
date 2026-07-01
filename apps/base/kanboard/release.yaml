@@ -19,10 +19,10 @@ spec:
       persistence:
         enabled: true
         persistentVolumeClaim:
-          name: kanboard-data-claim
+          name: kanboard-pvc
           create: false
       env: []
-        
+
     service:
       enabled: true
       type: ClusterIP
