@@ -25,13 +25,4 @@ spec:
       enableSnapshotter: false
 
     storageClass:
-      create: true
-      name: nfs-csi
-      parameters:
-        server: 152.152.152.3
-        share: /data/SERVER/kuber/pvc
-        subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
-      reclaimPolicy: Retain
-      volumeBindingMode: Immediate
-      mountOptions:
-        - nfsvers=4.1
+      create: false
